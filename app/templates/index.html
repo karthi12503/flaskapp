@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>myapp</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css') }}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #navbar {
+        
+            display: flex;
+            width: 100%;
+            height: 80px;
+            justify-content: center;
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar">
+        <h1> TO DO APP </h1>
+    </div>
+
+    <div class="container">
+
+        {% if update_todo %}
+
+        <form action="{{ url_for('.update',id=update_todo.id) }}" class="form-group mt-4 form-inline" method="POST">
+            <input type="text" name="task" placeholder="Enter any task ...," class="form-control form-control-md m-2" value="{{ update_todo.task }} (updated)" required>
+            <button class="btn btn-md btn-primary" type="submit">Update</button>
+        </form>
+
+        {% else %}
+
+        <form action="{{ url_for('.add') }}" class="form-group mt-4 form-inline" method="POST">
+            <input type="text" name="task" placeholder="Enter any task ...," class="form-control form-control-md m-2" required>
+            <button class="btn btn-md btn-primary" type="submit">Add task</button>
+        </form>
+
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <table class="table text-center table-bordered">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Task
+                </th>
+                <th>
+                    Date Time
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+
+            {% for todo in todos %}
+
+            <tr>
+                <td>
+                    {{ todo.id }}
+                </td>
+                <td>
+                    {{ todo.task }}
+                </td>
+                <td>
+                    {{ todo.date }}
+                </td>
+                <td>
+                    <a class="btn btn-success mr-2" href="{{ url_for('.update',id=todo.id) }}">Update</a>
+                    <a class="btn btn-danger ml-2" href="{{ url_for('.delete',id=todo.id) }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+
+</body>
+
+</html>
